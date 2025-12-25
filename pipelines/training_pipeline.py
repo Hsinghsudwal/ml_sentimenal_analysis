@@ -15,7 +15,8 @@ class MLPipeline:
         raw_data = DATA.load_data(path_data)
         print(raw_data.head(3))
 
-        raw_data = raw_data.sample(n=100, random_state=42)
+        # testing
+        # raw_data = raw_data.sample(n=100, random_state=42)
 
         processed_data = DATA.data_preprocess(raw_data)
         print(processed_data.head())
@@ -37,3 +38,5 @@ class MLPipeline:
             )
 
         PIPE.report(artifact)
+
+        LOG.info("Training Completed :)")
