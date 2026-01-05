@@ -39,6 +39,8 @@ python test_serverless_single.py
 # Docker pull container
 docker build -f docker/Dockerfile.serverless -t hsinghsudwal/sentiment-serverless:v1 .
 docker push hsinghsudwal/sentiment-serverless:v1
+# Pull pre-build Image
+docker pull hsinghsudwal/sentiment-serverless:v1
 docker run -p 8080:8080 hsinghsudwal/sentiment-serverless:v1
 python test_serverless_single.py or python test_serverless_batch.py
 ```

@@ -20,10 +20,10 @@ This project implements an end-to-end **Tweet Sentiment Analysis** system using 
 ---
 
 ## Problem Statement
-Every day, users post millions of tweets—some positive, some negative, and some neutral. Understanding sentiment is crucial for brands, governments, and researchers to monitor opinions, detect trends, and respond appropriately. Manually analyzing tweets is inefficient and prone to error.
+Every day, users post millions of tweets—some positive, some negative, and some neutral. Understanding sentiment is crucial for brands, governments, and researchers to monitor opinions, detect trends, and respond appropriately. Manually analyzing tweets is inefficient and prone to error. To solve the problem: The [dataset](https://www.kaggle.com/datasets/jp797498e/twitter-entity-sentiment-analysis/data) is taken form kaggle.
 
 **Objective:**  
-Build an intelligent system to automatically classify tweets into positive, negative, neutral or irrelevant sentiment.
+Build an intelligent system to automatically classify tweets into positive, negative, or neutral sentiment.
 
 **Solution Approach:**
 - **Data Understanding & Cleaning:** Remove noise, special characters, URLs, mentions, hashtags, and standardize text.  
@@ -245,7 +245,7 @@ python main.py --serve
 python test_app_single.py or python test_app_batch.py
 ```
 
-### Docker Local API
+### Docker Local API & Pre-Built Image
 ```bash
 docker build -f docker/Dockerfile.app -t api .
 docker run -p 9696:9696 api
@@ -253,6 +253,12 @@ docker run -p 9696:9696 api
 * Testing
 ```bash
 python test_app_single.py or python test_app_batch.py
+```
+```bash
+# Pull Pre-built Image
+docker pull hsinghsudwal/sentiment-api:v1
+docker run -p 9696:9696 hsinghsudwal/sentiment-api:v1
+python test_app_single.py
 ```
 
 ### Serverless Image
@@ -324,7 +330,9 @@ kubectl get hpa sentiment-hpa --watch
 * Production-ready configuration
 
 ## Proof
-#### Dir PNG/ show png of docker pull image and apply run with port and run test
+#### Directory `PNG`
+* app: show png of docker pull image and apply run with port and run test
+* serverless: 
 
 ## Best Practices
 

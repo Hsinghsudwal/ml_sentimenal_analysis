@@ -3,7 +3,6 @@ numpy
 scikit-learn
 fastapi
 pydantic
-uvicorn
 pandas
 nltk
 emoji
