@@ -1,0 +1,21 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY k8s/k8s_requirements.txt .
+RUN pip install --no-cache-dir -r k8s_requirements.txt
+
+
+# Copy application code
+COPY artifact ./artifact
+COPY pipelines ./pipelines
+# COPY k8s/app.py ./app.py
+COPY app.py ./app.py
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
