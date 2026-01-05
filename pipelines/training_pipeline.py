@@ -14,12 +14,14 @@ class MLPipeline:
         DATA = DataPrep()
         raw_data = DATA.load_data(path_data)
         print(raw_data.head(3))
+        print(raw_data.shape)
 
         # testing
         # raw_data = raw_data.sample(n=100, random_state=42)
 
         processed_data = DATA.data_preprocess(raw_data)
         print(processed_data.head())
+        print(processed_data.shape)
 
         X_train, X_test, y_train, y_test, y_train_enc, y_test_enc, label_encoder = DATA.split_encoder(processed_data)
         print('xtrain: ', X_train.shape, 'ytrain: ', y_train.shape, 'y_train_enc: ', y_train_enc.shape)
