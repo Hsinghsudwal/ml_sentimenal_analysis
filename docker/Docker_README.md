@@ -31,16 +31,17 @@ python test_app_single.py
 
 Build and run the serverless container:
 ```bash
-# Build serverless image
+# Build serverless image local
 docker build -f docker/Dockerfile.serverless -t serverless .
-
-# Run the container
 docker run -p 8080:8080 serverless
-
-# Test
 python test_serverless_single.py
-```
 
+# Docker pull container
+docker build -f docker/Dockerfile.serverless -t hsinghsudwal/sentiment-serverless:v1 .
+docker push hsinghsudwal/sentiment-serverless:v1
+docker run -p 8080:8080 hsinghsudwal/sentiment-serverless:v1
+python test_serverless_single.py or python test_serverless_batch.py
+```
 # Kubernetes Deployment (Kind)
 
 1. Create Kind cluster
@@ -106,42 +107,64 @@ docker run -p 8000:8000 hsinghsudwal/sentiment-k8s:v1
 python test_k8s_local.py  # local
 ```
 
-# Docker k8s hpa
-* Docker pull image
-* Make changes to deploy_image.yaml;
-```deploy.yaml
-containers:
-- name: sentiment
-  image: <user>/sentiment-api:v1
-  imagePullPolicy: Always            # Docker image
-  ports:
-  - containerPort: 8000
-```
-* Deploy to kubernetes
-```bash
-kind create cluster
 
-kind load docker-image hsinghsudwal/sentiment-k8s:v1 --name kind
+# K8s-Docker Registry
+```bash
+# Create a kind cluster
+kind create cluster --name sentiment-cluster
+
+# Check cluster context
+kubectl config current-context
+
+# Verify nodes
+kubectl get nodes 
+
+# Load the Docker Hub image into the kind node
+kind load docker-image hsinghsudwal/sentiment-k8s:v1 --name sentiment-cluster
+
+# Optional: If you want to test locally, build image for kind:
+docker build -f docker/Dockerfile.k8s -t app-k8s:v1 .
+kind load docker-image app-k8s:v1 --name sentiment-cluster
+
+# Apply the Deployment
+      containers:
+        - name: sentiment
+          image: hsinghsudwal/sentiment-k8s:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
 
 kubectl apply -f k8s/deploy_image.yaml
+kubectl get deployments
+kubectl get pods -w   # Running
+
+# Apply the Service
+
 kubectl apply -f k8s/service.yaml
-kubectl apply -f k8s/hpa.yaml
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-# Verify
-kubectl get pods
 kubectl get services
+
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+# Check if metrics server is running
+kubectl get pods -n kube-system
+
+# Apply the HPA
+
+kubectl apply -f k8s/hpa.yaml
 kubectl get hpa
-```
-* Port Forward
-```bash
+
+# Port-forward for testing
 kubectl port-forward service/sentiment-service 30001:80
 
-# Running test with hpa
 python test_k8s_hpa.py
-# Watch scaling:
+
 kubectl get hpa sentiment-hpa --watch
-kubectl get pods --watch
+kubectl get pods -w
+
+# Clean up cluster
+kubectl delete -f k8s/hpa.yaml
+kubectl delete -f k8s/service.yaml
+kubectl delete -f k8s/deploy_image.yaml
+
+kind delete cluster --name sentiment-cluster
 ```
-For cloud deployment or CI/CD pipelines.
-
-

@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+.venv/
+.env
+
+# Git
+.git/
+.gitignore
+
+# Data
+data/
+*.csv
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tests
+tests/

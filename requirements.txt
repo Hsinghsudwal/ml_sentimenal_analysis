@@ -1,0 +1,24 @@
+pandas
+numpy
+scikit-learn
+joblib
+matplotlib
+seaborn
+ipython
+jupyter
+nltk
+emoji
+langdetect
+wordcloud
+Flask
+gunicorn
+uvicorn
+svm
+tensorflow
+pydantic
+fastapi
+
+
+# AWS SDK for Lambda
+# boto3==1.34.0
+# botocore==1.34.0

@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pydantic
+joblib
+numpy
+pandas
+nltk
+emoji
+langdetect
+scikit-learn
