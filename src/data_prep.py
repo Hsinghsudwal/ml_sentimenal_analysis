@@ -27,6 +27,16 @@ class DataPrep:
 
     def data_preprocess(self, df):
         LOG.info("Data process initialized")
+        df = df[df["Sentiment"] != "Irrelevant"].copy()
+        LOG.info(
+            f"Data after irrelevant drop | {df.shape}"
+        )
+        df = df.dropna(subset=["Tweet_content"])
+        LOG.info(
+            f"Data after dropna | {df.shape}"
+        )
+
+
         df['processed_text'] = df['Tweet_content'].apply(data_cleaning)
         LOG.info(
             f"Data process | rows={df.shape[0]} cols={df.shape[1]}"
