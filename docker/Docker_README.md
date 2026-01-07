@@ -37,11 +37,10 @@ docker run -p 8080:8080 serverless
 python test_serverless_single.py
 
 # Docker pull container
-docker build -f docker/Dockerfile.serverless -t hsinghsudwal/sentiment-serverless:v1 .
-docker push hsinghsudwal/sentiment-serverless:v1
-# Pull pre-build Image
-docker pull hsinghsudwal/sentiment-serverless:v1
-docker run -p 8080:8080 hsinghsudwal/sentiment-serverless:v1
+docker build -f docker/Dockerfile.serverless -t <user/app:tag .>
+docker push <user/app:tag>
+docker pull <user/app:tag>
+docker run -p 8080:8080 <user/app:tag>
 python test_serverless_single.py or python test_serverless_batch.py
 ```
 # Kubernetes Deployment (Kind)
